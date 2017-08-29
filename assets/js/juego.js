@@ -1,5 +1,5 @@
 
-var map1 = [" * * * * * * * * * * * * * * * * * * * * ",
+const map1 = [" * * * * * * * * * * * * * * * * * * * * ",
     " * *           * * *             * *   * ",
     " * *             W                 *   * ",
     " *                           *     *   * ",
@@ -17,7 +17,7 @@ var map1 = [" * * * * * * * * * * * * * * * * * * * * ",
     " * *        *     *      *         *   * ",
     " * * * * * * * * * * * * * * * * * * * * "];
 
-var  map2=[" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ",
+const  map2=[" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ",
     " * *                                 *             * * * * ",
     " * *   *                             *       *       * * * ",
     " *   *   *            *              *     * *     *     * ",
@@ -38,7 +38,7 @@ var  map2=[" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ",
     " * * *      *          * *         *   *             * * * ",
     " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "];
 
-var map3=[" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ",
+const map3=[" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ",
     " * * * * * * * * * * *                                           ",
     " *       *  *  *       * *                                W*     ",
     " *               *     * * *           *                   I     ",
@@ -62,7 +62,7 @@ var map3=[" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ",
     " * * * *                                  *                *     ",
     " * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * "];
 
-var map4= ["                                                                 ",
+const map4= ["                                                                 ",
     " *   o       * **  ** *                                  *****    ",
     "    *                                                        *    ",
     "    *           **                                           *    ",
@@ -94,7 +94,7 @@ var map4= ["                                                                 ",
     " ** W****************    * ****                    *      ******* ",
     "                                                                  "];
 
-var map5= ["                                                                 ",
+const map5= ["                                                                 ",
     "                                W                     W          ",
     "         *                                       *               ",
     "   *                    *                            *           ",
@@ -127,7 +127,7 @@ var map5= ["                                                                 ",
     "                                                                 "] ;
 
 
-var map6=[  "                                                 ",
+const map6=[  "                                                 ",
     "                                                 ",
     "                                                 ",
     "       **o        ***                **W         ",
@@ -150,7 +150,6 @@ var map6=[  "                                                 ",
     "                    * **                         ",
     "                                                 ",
     "                                                 "];
-var jueguito=document.getElementById('juego');
 var x;
 var y;
 var yinicial;
@@ -235,10 +234,10 @@ function reiniciar() {
   generarMapa(map, 'empezar');
 }
 
-var t;
-var d;
+
 function move(a, b, direccion)
 {
+  let t = setTimeout(()=>{ move(a, b, direccion) }, 50);
   isrunning=true;
   if(map[y+a][x+b]=="*"){
       clearTimeout(t);
@@ -249,7 +248,7 @@ function move(a, b, direccion)
       clearTimeout(t);
       $('#juego').addClass('rotar');
       actual--;
-      d = setTimeout(subirNivel, 1500);
+      let d = setTimeout(subirNivel, 1500);
       return;
   }
   if( y+a==0 || x+b==0 || y+a==yfinal || x+b==xfinal){
@@ -274,7 +273,6 @@ function move(a, b, direccion)
   }
   generarMapa(map, direccion);
 
-  t = setTimeout(function(){ move(a, b, direccion) }, 50);
 }
 
 const teclas = {
@@ -283,6 +281,7 @@ const teclas = {
   LEFT: 37,
   RIGHT: 39
 };
+
 $(document).on("keydown", movimiento);
 function movimiento(evento)
 {

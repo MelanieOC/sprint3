@@ -5,6 +5,7 @@ $(".h2-play").click(function() {
     $('.principal').attr('class','nuevito');
     agregar();
 })
+
 function agregar() {
     $('.nuevito').empty().height(600);
     $('#juego').hide();
@@ -61,6 +62,6 @@ function ganar() {
       $('<div>').addClass('ganador').append(
         $('<img>').attr('src','assets/img/cohete.gif')
       ).append($('<p>').html('Ganaste!'))
-    )
+    ) 
     level=1;
 }
