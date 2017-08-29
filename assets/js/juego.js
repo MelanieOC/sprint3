@@ -160,7 +160,7 @@ var xfinal;
 var xtransport=[];
 var ytransport=[];
 
-var mapas = [map1, map2, map3, map4, map5, map6];
+const mapas = [map1, map2, map3, map4, map5, map6];
 var actual=mapas.length-1;
 var mapa = mapas[actual];
 var level=1;
@@ -169,9 +169,9 @@ var isrunning=false;
 
 function iniciar(){
   map=[];
-  for (var i = 0; i < mapa.length; i++){
+  for (let i = 0; i < mapa.length; i++){
     map[i]=[];
-    for (var j = 0; j < mapa[0].length; j++) {
+    for (let j = 0; j < mapa[0].length; j++) {
       map[i][j]=mapa[i][j];
       if(map[i][j]=='o'){
           xinicial=j;
@@ -186,42 +186,36 @@ function generarMapa(map, direccion) {
   ytransport=[];
   yfinal=map.length-1;
   xfinal=map[0].length-1;
-  jueguito.innerHTML='';
-  var texto=document.createElement('div');
-  texto.innerHTML='Nivel '+level;
-  texto.setAttribute('class','ganador');
-  var tabla = document.createElement('table');
-  tabla.setAttribute('cellspacing','0');
-  for (var i = 0; i < map.length; i++) {
-    var fila = document.createElement('tr');
-    for (var j = 0; j < map[i].length; j++) {
-        var celda = document.createElement('td');
+  $('#juego').empty();
+  var tabla = $('<table>').attr('cellspacing','0');
+  for (let i = 0; i < map.length; i++) {
+    var fila = $('<tr>');
+    for (let j = 0; j < map[i].length; j++) {
+        var celda = $('<td>');
         if(map[i][j]=='*'){
-          celda.setAttribute('class','pared');
+          celda.addClass('pared');
         } else if(map[i][j]=='o'){
           x=j;
           y=i;
-          celda.setAttribute('class','nave');
-          celda.setAttribute('id',direccion);
+          celda.addClass('nave').attr('id',direccion);
         } else if
          (map[i][j]=='W') {
-          celda.setAttribute('class', 'llegada');
+          celda.addClass('llegada');
         } else if (map[i][j]=='I'){
-         celda.setAttribute('class','transporte');
+         celda.addClass('transporte');
           xtransport.push(j);
           ytransport.push(i);
         }
-        fila.appendChild(celda);
+        fila.append(celda);
     }
-    tabla.appendChild(fila);
+    tabla.append(fila);
   }
-  jueguito.appendChild(texto);
-  jueguito.appendChild(tabla);
+  $('#juego').append($('<div>').addClass('ganador').html('Nivel '+level)).append(tabla);
 }
 
 function subirNivel() {
   isrunning=false;
-  jueguito.className='';
+  $('#juego').removeClass();
   if(actual<0){
     ganar();
     actual=mapas.length-1;
@@ -241,25 +235,10 @@ function reiniciar() {
   generarMapa(map, 'empezar');
 }
 
-function ganar() {
-    isrunning=true;
-    jueguito.innerHTML='';
-    level=1;
-    var div=document.createElement('div');
-    div.setAttribute('class', 'ganador');
-    var imagen = document.createElement('img');
-    imagen.setAttribute('src','assets/img/cohete.gif');
-    var p=document.createElement('p');
-    var texto= document.createTextNode('Ganaste!');
-    p.appendChild(texto);
-    div.appendChild(imagen);
-    div.appendChild(p);
-    jueguito.appendChild(div);
-}
 var t;
 var d;
 function move(a, b, direccion)
-{ 
+{
   isrunning=true;
   if(map[y+a][x+b]=="*"){
       clearTimeout(t);
@@ -268,7 +247,7 @@ function move(a, b, direccion)
   }
   if(map[y+a][x+b]=="W"){
       clearTimeout(t);
-      jueguito.className='rotar';
+      $('#juego').addClass('rotar');
       actual--;
       d = setTimeout(subirNivel, 1500);
       return;
@@ -298,14 +277,13 @@ function move(a, b, direccion)
   t = setTimeout(function(){ move(a, b, direccion) }, 50);
 }
 
-var teclas = {
+const teclas = {
   UP: 38,
   DOWN: 40,
   LEFT: 37,
   RIGHT: 39
 };
-document.addEventListener("keydown", movimiento);
-
+$(document).on("keydown", movimiento);
 function movimiento(evento)
 {
   if(isrunning==false){
@@ -326,5 +304,3 @@ function movimiento(evento)
     }
   }
 }
-
-
